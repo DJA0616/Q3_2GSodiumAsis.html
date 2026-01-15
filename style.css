@@ -1,0 +1,25 @@
+.form-container fieldset *:focus{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: cyan;
+}
+
+.blur{
+    box-shadow: 4px 4px 8px rgba(255, 0, 0, 0.2);
+}
+
+.form-container{
+    width: 400px;
+    margin: auto;
+    padding: 50px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+fieldset{
+    overflow: hidden;
+    flex-shrink: 1;
+}
