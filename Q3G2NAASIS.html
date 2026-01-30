@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sign Up Form</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form action="submit" method="post" id="studentForm" class="form-container">
+    <form method="post" id="studentForm" class="form-container">
         <fieldset>
             <label for="studentID">Student ID: </label>
             <input type="text" placeholder="Enter Student ID" id="studentID" required><br>
@@ -35,9 +35,9 @@
             </select><br>
 
             <label for="radio">Residence type:</label>
-            <input type="radio" id="intern" name="residence" required>
+            <input type="radio" id="intern" name="residence" value="intern" required>
             <label for="intern">Intern</label>
-            <input type="radio" id="extern" name="residence" required>
+            <input type="radio" id="extern" name="residence" value="extern" required>
             <label for="extern">Extern</label><br>
 
             <label for="organization">Organization:</label>
@@ -56,6 +56,7 @@
 
         <button type="submit">Submit</button>
         <button type="reset">Reset</button>
+        <button onclick="window.location.href='viewSignUps.html'">View Signups</button>
     </form>
 </body>
 
@@ -63,12 +64,36 @@
     const form = document.getElementById('studentForm');
     const reset = document.querySelector('button[type="reset"]');
 
+    function getStudentFormData(){
+        const data = localStorage.getItem('studentFormData');
+        return data ? JSON.parse(data) : [];
+    }
+
+    function writeStudentFormData(){
+        const currentData = getStudentFormData();
+        let incomingData = {
+            studentID: form.studentID.value,
+            fullName: form.fullName.value,
+            birthday: form.birthday.value,
+            email: form.email.value,
+            mobilePhone: form.mobilePhone.value,
+            gradeLevel: form.gradeLevel.value,
+            residence: form.querySelector('input[name="residence"]:checked').value == "intern" ? "Intern" : "Extern",
+            organization: form.organization.value,
+            whyJoin: form.whyJoin.value
+        }
+
+        currentData.push(incomingData);
+        localStorage.setItem('studentFormData', JSON.stringify(currentData));
+    }
+
     form.addEventListener('submit', function(event){
         event.preventDefault();
         let submit = confirm("Are you sure you want to submit the form?");
 
         if(submit){
             alert("Form submitted successfully!");
+            writeStudentFormData();
             form.reset();
         } else {
             alert("Form submission cancelled.");
