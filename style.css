@@ -23,12 +23,19 @@
 }
 
 fieldset{
-    overflow: hidden;
     flex-shrink: 1;
     border: 2px solid #4CAF50;
     border-radius: 5px;
     padding: 15px;
     background-color: #f9f9f9;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
 }
 
 input, select, textarea {
@@ -39,6 +46,10 @@ input, select, textarea {
     font-size: 14px;
     transition: border-color 0.3s ease;
     resize: none;
+}
+
+textarea {
+    width: 100%;
 }
 
 input:focus, select:focus, textarea:focus {

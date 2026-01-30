@@ -7,15 +7,35 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <label for="organization">Select Your Organization:</label>
+    <select id="organization" name="organization" required>
+        <option value="none">None</option>
+        <option value="math">Math</option>
+        <option value="english">English</option>
+        <option value="physics">Physics</option>
+        <option value="chemistry">Chemistry</option>
+        <option value="biology">Biology</option>
+    </select><br>
+
     <table></table>
+
+    <button onclick="window.location.href='formSignUp.html'">Back To Form</button>
 </body>
 <script>
+    const organizationSelect = document.getElementById('organization');
+
     function getStudentFormData(){
         const data = localStorage.getItem('studentFormData');
         return data ? JSON.parse(data) : [];
     }
 
-    function populateTable(){
+    function clearTable(){
+        const table = document.querySelector('table');
+        table.innerHTML = '';
+    }
+
+    function populateTable(organizationFilter = 'none'){
+        clearTable();
         const table = document.querySelector('table');
         const data = getStudentFormData();
 
@@ -29,8 +49,16 @@
         });
         table.appendChild(headerRow);
 
+        let hasVisibleEntries = false;
+
         // Populate table rows
         data.forEach(entry => {
+            if (organizationFilter !== 'none' && entry.organization.toLowerCase() !== organizationFilter) {
+                return; // Skip entries that don't match the filter
+            }
+
+            hasVisibleEntries = true;
+            
             const row = document.createElement('tr');
             Object.values(entry).forEach(text => {
                 const td = document.createElement('td');
@@ -39,8 +67,21 @@
             });
             table.appendChild(row);
         });
+
+        if (!hasVisibleEntries) {
+            const noDataRow = document.createElement('tr');
+            const noDataCell = document.createElement('td');
+            noDataCell.colSpan = headers.length;
+            noDataCell.textContent = 'No sign-ups available for the selected organization.';
+            noDataRow.appendChild(noDataCell);
+            table.appendChild(noDataRow);
+        }
     }
 
     populateTable();
+
+    organizationSelect.addEventListener('change', function() {
+        populateTable(this.value);
+    });
 </script>
 </html>
