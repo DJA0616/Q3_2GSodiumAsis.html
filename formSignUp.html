@@ -69,8 +69,12 @@
         return data ? JSON.parse(data) : [];
     }
 
+    // Data structure is an array of objects
     function writeStudentFormData(){
+        // Parse existing data or initialize empty array
         const currentData = getStudentFormData();
+
+        // Create new object entry from form inputs
         let incomingData = {
             studentID: form.studentID.value,
             fullName: form.fullName.value,
@@ -83,6 +87,7 @@
             whyJoin: form.whyJoin.value
         }
 
+        // Append new entry to existing data array and save back to localStorage
         currentData.push(incomingData);
         localStorage.setItem('studentFormData', JSON.stringify(currentData));
     }
@@ -110,6 +115,7 @@
         }
     });
 
+    // Add blur event listeners for validation feedback
     const formInputs = form.querySelectorAll('input, select, textarea');
     formInputs.forEach(function(input){
         input.addEventListener('blur', function(){

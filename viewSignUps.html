@@ -53,12 +53,15 @@
 
         // Populate table rows
         data.forEach(entry => {
+            // Skip entries that don't match the filter
             if (organizationFilter !== 'none' && entry.organization.toLowerCase() !== organizationFilter) {
-                return; // Skip entries that don't match the filter
+                return;
             }
 
+            // If filter passed, mark that we have visible entries
             hasVisibleEntries = true;
             
+            // Create a new row and populate it with entry data
             const row = document.createElement('tr');
             Object.values(entry).forEach(text => {
                 const td = document.createElement('td');
@@ -68,6 +71,7 @@
             table.appendChild(row);
         });
 
+        // If no entries are visible, show a message
         if (!hasVisibleEntries) {
             const noDataRow = document.createElement('tr');
             const noDataCell = document.createElement('td');
@@ -80,6 +84,7 @@
 
     populateTable();
 
+    // Rerenders table on organization change
     organizationSelect.addEventListener('change', function() {
         populateTable(this.value);
     });
